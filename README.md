@@ -13,3 +13,5 @@ On Linux, you may need to install tkinter using your system package manager. For
 `apt-get install python3-tk`
 
 Run using command line or Compile using python -m py_compile.
+
+Added LoRa Implementation for Inference.
