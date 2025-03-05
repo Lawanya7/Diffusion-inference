@@ -7,8 +7,11 @@ import json
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from PIL import Image, ImageTk, ImageDraw
-import threading  # Add this line
-# 
+import threading  
+
+import torchruntime
+torchruntime.configure()
+
 SETTINGS_FILE = "image_generator_settings.json"
 
 def save_settings(settings):
