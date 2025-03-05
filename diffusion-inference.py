@@ -39,7 +39,9 @@ def generate_image():
     guidance_scale = float(guidance_scale_entry.get())
     upscaler_increases_size = float(size_entry.get())
     hires_steps = int(hi_steps_entry.get())
-
+    lora_A = lora_A_entry.get() # Added for LoRa Adapters  
+    lora_scale_A = float(lora_scale_A_entry.get()) # LoRA scale 
+	
     settings = {
           "prompt": prompt,
           "negative_prompt": negative_prompt,
@@ -55,24 +57,9 @@ def generate_image():
           "guidance_scale": guidance_scale,
           "upscaler_increases_size": upscaler_increases_size,
           "hires_steps": hires_steps,
+	  "lora_A": lora_A,
+          "lora_scale_A": lora_scale_A, 
         }
-
-    settings = {
-        "prompt": prompt,
-        "negative_prompt": negative_prompt,
-        "model_path": model_path,
-        "upscaler_path": upscaler_path,
-        "output_dir": output_dir,
-        "task": task,
-        "image_path": image_path,
-        "mask_path": mask_path,
-        "img_width": img_width,
-        "img_height": img_height,
-        "num_steps": num_steps,
-        "guidance_scale": guidance_scale,  # Corrected variable name
-        "upscaler_increases_size": upscaler_increases_size,  # Corrected variable name
-        "hires_steps": hires_steps,  # Corrected variable name
-    }
     save_settings(settings)
 
     try:
@@ -105,6 +92,8 @@ def generate_image():
             "upscaler_increases_size": upscaler_increases_size,
             "hires_steps": hires_steps,
             "image_storage_location": output_dir,
+	    "lora_A": lora_A,
+            "lora_scale_A": lora_scale_A,
         }
 
         if task in ['img2img', 'ip2p'] and image_path:
@@ -150,6 +139,11 @@ def browse_model():
     filename = filedialog.askopenfilename(title="Select Model File")
     model_path_entry.delete(0, tk.END)
     model_path_entry.insert(0, filename)
+
+def browse_lora_A():
+    filename = filedialog.askopenfilename(title="Select LoRa Model File")
+    lora_A_entry.delete(0, tk.END)
+    lora_A_entry.insert(0, filename)
 
 def browse_upscaler():
     filename = filedialog.askopenfilename(title="Select Upscaler File")
@@ -274,7 +268,19 @@ tk.Label(input_frame, text="Hires Steps:").grid(row=15, column=0)
 hi_steps_entry = tk.Entry(input_frame, width=10)
 hi_steps_entry.grid(row=15, column=1)
 hi_steps_entry.insert(0, settings.get("hires_steps", "50"))
-	
+
+tk.Label(input_frame, text="LoRA Model:").grid(row=16, column=0, sticky="w")
+lora_A_entry = tk.Entry(input_frame, width=40)
+lora_A_entry.grid(row=16, column=1)
+lora_A_browse_button = tk.Button(input_frame, text="Browse", command=browse_lora_A)
+lora_A_browse_button.grid(row=16, column=2)
+lora_A_entry.insert(0, settings.get("lora_A", ""))
+
+tk.Label(input_frame, text="LoRA Scale:").grid(row=17, column=0)
+lora_scale_A_entry = tk.Entry(input_frame, width=10)
+lora_scale_A_entry.grid(row=17, column=1)
+lora_scale_A_entry.insert(0, settings.get("lora_scale_A", "0.8"))
+
 generate_button = tk.Button(input_frame, text="Generate Image", command=generate_image_thread)
 generate_button.grid(row=16, column=1, pady=10)
 
