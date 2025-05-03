@@ -14,4 +14,4 @@ On Linux, you may need to install tkinter using your system package manager. For
 
 Run using command line or Compile using python -m py_compile.
 
-Added LoRa Implementation for Inference.
+Added LoRa and IP-Adapter Implementation for Inference.
